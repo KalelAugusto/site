@@ -1,0 +1,52 @@
+header {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  height: 3em;
+  text-decoration: none;
+  background-color: #ddd;
+}
+
+ul.principal {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  
+}
+
+nav > ul > li:last-child {
+    margin-left: auto;
+}
+
+ul.secundario {
+    display: none;
+    margin-left: -50px;
+}
+
+.principal:hover .secundario {
+    display: block;
+    position: absolute;
+}
+
+.topnav li {
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  margin: 0px;
+}
+
+.topnav a {
+  color: #000000;
+}
+
+main {
+    clear:both;
+}
+}
