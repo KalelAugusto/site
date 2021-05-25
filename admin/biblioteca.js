@@ -2,7 +2,7 @@ function ControleBiblioteca() {
 	let visaoMenu = new MenuTexto(this);
 	let visaoFormulario = new FormularioGrafico(this);
 	let visaoListar = new ListaGrafica(this);
-	let biblioteca = new BibliotecaPromessa();
+	let biblioteca = new BibliotecaFetch();
 	this.menu = function () {
 		visaoMenu.menu();
 	}
@@ -120,22 +120,23 @@ function BibliotecaPromessa() {
 }
 
 function BibliotecaFetch() {
-	let url = '/biblioteca/listar';
-	this.listar = function () {
-		fetch(url);
+	this.listar = async function () {
+		let url = '/site/admin/artigos/listar.txt';
+		let resposta = await fetch(url);
+		let artigos = resposta.json();
+		return artigos;
 	}
 	this.cadastrar = function (artigo) {
-		artigos.push(artigo);
-		//artigo.id = artigos.length;
+		
 	}
 	this.apagar = function (id) {
-		artigos.splice(id, 1);
+		
 	}
 	this.buscarPorId = function (id) {
-		return artigos[id];
+		return artigo;
 	}
 	this.editar = function (artigo, id) {
-        artigos[id] = artigo
+        
 	}
 
 }
