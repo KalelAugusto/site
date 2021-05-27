@@ -29,7 +29,7 @@
 				<li><a onclick="controle.listar()">Listar</a></li>
 			</ul>
 		</nav>
-		<form onsubmit="aoSubmeter(); return false;" method="post" enctype="multipart/form-data">
+		<form onsubmit="event.preventDefault(); aoSubmeter(); return false;" method="post" enctype="multipart/form-data" id="formulario">
 			<input type="text" id="id" name="id" value=""/> 
 			<div>
 				<label for="titulo">Título:</label>

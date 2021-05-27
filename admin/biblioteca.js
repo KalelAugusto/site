@@ -19,8 +19,13 @@ function ControleBiblioteca() {
 		this.listar();
 	}
 	this.cadastrar = function (artigo) {
-		biblioteca.cadastrar(artigo);
-		this.listar();
+		try {
+			biblioteca.cadastrar(artigo);
+			this.listar();
+		} 
+		catch (e) {
+			console.error(e);
+		}
 	}
 	this.listar = function () {
 		//Sem CallBack
@@ -126,8 +131,18 @@ function BibliotecaFetch() {
 		let artigos = resposta.json();
 		return artigos;
 	}
-	this.cadastrar = function (artigo) {
-		
+	this.cadastrar = async function (artigo) {
+		let resposta = await fetch("/site/admin/artigos/cadastrar.php", {
+		  method: "POST",
+		  headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		  },
+		  body: Object.keys(artigo)
+			.map(k => `${encodeURIComponent(k)}=${encodeURIComponent(artigo[k])}`)
+			.join('&')
+		});
+		let mensagem = resposta.text();
+		return mensagem;
 	}
 	this.apagar = function (id) {
 		
