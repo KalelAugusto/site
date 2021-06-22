@@ -9,8 +9,8 @@ function ControleBiblioteca() {
 	this.formularioCadastro = function () {
 		visaoFormulario.cadastrar();
 	}
-	this.formularioEdicao = function (id) {
-		let artigo = biblioteca.buscarPorId(id);
+	this.formularioEdicao = async function (id) {
+		let artigo = await biblioteca.buscarPorId(id);
 		console.log('editando ' + id, artigo);
 		visaoFormulario.editar(artigo, id);
 	}
@@ -144,14 +144,30 @@ function BibliotecaFetch() {
 		let mensagem = resposta.text();
 		return mensagem;
 	}
-	this.apagar = function (id) {
-		
+	this.apagar = async function (id) {
+		let url = '/site/admin/artigos/apagar.txt';
+		let resposta = await fetch(url);
+		let mensagem = resposta.json();
+		return mensagem;
 	}
-	this.buscarPorId = function (id) {
+	this.buscarPorId = async function (id) {
+		let url = '/site/admin/artigos/editar.txt';
+		let resposta = await fetch(url);
+		let artigo = resposta.json();
 		return artigo;
 	}
-	this.editar = function (artigo, id) {
-        
+	this.editar = async function (artigo, id) {
+        let resposta = await fetch("/site/admin/artigos/editar.php?id=" + id, {
+		  method: "POST",
+		  headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		  },
+		  body: Object.keys(artigo)
+			.map(k => `${encodeURIComponent(k)}=${encodeURIComponent(artigo[k])}`)
+			.join('&')
+		});
+		let mensagem = resposta.text();
+		return mensagem;
 	}
 
 }
@@ -251,8 +267,8 @@ function ListaGrafica(controle) {
 		let tabela = document.querySelector('table');
 		let body = tabela.tBodies[0];
 		body.innerText = '';
-		for (let id in artigos) {
-			let artigo = artigos[id];
+		for (let artigo of artigos) {
+			let id = artigo.id;
 			let linha = document.createElement('tr');
 			let coluna_titulo = document.createElement('td');
 			let coluna_ano = document.createElement('td');
@@ -298,7 +314,6 @@ function FormularioGrafico(controle) {
 		txTitulo.value = artigo.titulo;
 		txDescricao.value = artigo.descricao;
 		txTexto.value = artigo.texto;
-		txImagem.value = artigo.imagem;
 		txAno.value = artigo.ano;
 	}
 }
